@@ -1,0 +1,124 @@
+body {
+    padding-top: 70px;
+    background-color: #e6fdd9f6;
+}
+
+.container {
+    line-height: 1.6;
+    margin: 20px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h2 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+table {
+    font-size: 0.9rem;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 30px;
+}
+
+.hidden {
+    display: none;
+}
+
+button.btn {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+/* Opcionalmente, si usas clases para colores */
+.btn-primary {
+    background-color: #154913;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #109c1c;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #565e64;
+}
+
+/* Ajustar margen para botón ocultar */
+.btn-ocultar {
+    margin-left: 0;
+    margin-top: 10px;
+}
+
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.social-icons a {
+    color: white;
+    margin: 0 10px;
+    font-size: 1.5em;
+}
+
+.navbar {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+}
+
+.custom-navbar {
+    padding: 1.2rem 1rem;
+    /* más alto */
+    font-weight: 600;
+    /* texto un poco más grueso */
+}
+
+.custom-navbar {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.custom-navbar .navbar-brand,
+.custom-navbar .nav-link {
+    color: white;
+}
+
+.custom-navbar .nav-link:hover {
+    color: #1d0977;
+    /* color dorado al pasar mouse */
+}
+
+.custom-navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .nav-link {
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+    color: #2d264d;
+    font-weight: 800
+}
+
+.mi-fondo-personalizado {
+    background-color: #77f346;
+    /* azul personalizado */
+}

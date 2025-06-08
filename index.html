@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Analisis_numerico</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg mi-fondo-personalizado fixed-top">
+
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-calculator" style="font-size: 1.5rem; color: rgb(12, 10, 10);"></i>
+                ECUACIONES DIFERENCIALES
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="html/ejercicio1.html">Crecimiento Poblacional</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="html/ejercicio2.html">Crecimiento de un tumor</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="html/ejercicio3.html">Caida Libre</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Banner con imagen de fondo -->
+    <div class="banner-imagen text-white d-flex align-items-center">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold">Bienvenido al Análisis Numérico</h1>
+            <p class="lead">Explora ecuaciones diferenciales aplicadas a fenómenos reales.</p>
+            
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="exercise">
+            <h3 class="exercise-title"><a href="html/ejercicio1.html"><span class="problem-number">Ejercicio
+                        1.</span>Crecimiento poblacional con
+                    capacidad
+                    limitada</a></h3>
+            <p>El crecimiento poblacional de especies con capacidad limitada puede modelarse mediante la ecuación:</p>
+
+            <div class="equation">
+                $$ \frac{dN}{dt} = kN(N_M - N) $$
+            </div>
+
+            <p>donde <i>N</i> es el tamaño de la población, <i>N<sub>M</sub></i> es el número límite para la población,
+                y
+                <i>k</i> es una constante. Considera el caso donde <i>N<sub>M</sub></i> = 5000, <i>k</i> = 0.000095
+                1/año, y
+                <i>N</i>(0) = 100. Determina <i>N</i> para 0 &le; <i>t</i> &le; 20. Realiza una gráfica de <i>N</i> como
+                función de <i>t</i>.
+            </p>
+        </div>
+
+        <div class="exercise">
+            <h3 class="exercise-title"><a href="html/ejercicio2.html"><span class="problem-number">Ejercicio 2.</span>
+                    Modelado del crecimiento de un
+                    tumor</a></h3>
+            <p>El crecimiento de un tumor puede modelarse con la ecuación:</p>
+
+            <div class="equation">
+                $$ \frac{dA}{dt} = \alpha A \left[1 - \left(\frac{A}{k}\right)^\nu\right] $$
+            </div>
+
+            <p>donde <i>A(t)</i> es el área del tumor y $\alpha$, <i>k</i>, y $\nu$ son constantes. Resuelve la ecuación
+                para 0 &le; <i>t</i> &le; 30 días, dado $\alpha$ = 0.8, <i>k</i> = 60, $\nu$ = 0.25, y <i>A</i>(0) = 1
+                mm<sup>2</sup>. Realiza una gráfica de <i>A</i> como función del tiempo.</p>
+        </div>
+
+        <div class="exercise">
+            <h3 class="exercise-title"><a href="html/ejercicio3.html"><span class="problem-number">Ejercicio 3.</span>
+                    Velocidad de un objeto en caída
+                    libre
+                </a></h3>
+            <p>La velocidad de un objeto que cae libremente debido a la gravedad terrestre puede modelarse mediante la
+                ecuación:</p>
+
+            <div class="equation">
+                $$ m\frac{dv}{dt} = -mg + kv^2 $$
+            </div>
+
+            <p>donde <i>m</i> es la masa del objeto, <i>g</i> = 9.81 m/s<sup>2</sup>, y <i>k</i> es una constante.
+                Resuelve
+                la ecuación para <i>v</i> para el caso <i>m</i> = 5 kg, <i>k</i> = 0.05 kg/m, 0 &le; <i>t</i> &le; 15 s
+                y
+                <i>v</i>(0) = 0 m/s. Realiza una gráfica de <i>v</i> como función del tiempo.
+            </p>
+        </div>
+
+    </div>
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <p>Analisis Numerico</p>
+            <p>Ecuaciones Diferenciales</p>
+            <p>&copy; 2025 Ruth Quispe Hinojosa. Todos los derechos reservados.</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1233 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Analisis_numerico</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="../css/stileE1.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg mi-fondo-personalizado fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-calculator" style="font-size: 1.5rem; color: rgb(12, 10, 10);"></i>
+                ECUACIONES DIFERENCIALES
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="ejercicio1.html">Crecimiento Poblacional</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#">Crecimiento de un tumor</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="ejercicio3.html">Caida Libre</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header-section my-4">
+            <h1>Caída Libre de un Objeto con Resistencia del Aire</h1>
+            <p>
+                Se resuelve la ecuación diferencial ordinaria
+                $$ m \frac{dv}{dt} = -mg + kv^2 $$
+                que modela la velocidad de un objeto que cae libremente bajo la influencia de la gravedad
+                y la resistencia del aire proporcional al cuadrado de la velocidad. <br>
+                Al reorganizar, se tiene:
+                $$ \frac{dv}{dt} = -g + \frac{k}{m}v^2 $$
+                con los parámetros: masa \( m = 5 \, \text{kg} \), gravedad \( g = 9.81 \, \text{m/s}^2 \),
+                constante de arrastre \( k = 0.05 \, \text{kg/m} \), y condición inicial \( v(0) = 0 \, \text{m/s} \),
+                en el intervalo \( 0 \le t \le 15 \, \text{s} \). <br>
+                La solución se aproxima mediante los métodos numéricos de Euler, Heun y Runge-Kutta de orden 4.
+            </p>
+        </div>
+
+
+        <!-- Método de Euler -->
+        <div class="metodo-euler my-4">
+            <h2>Método de Euler</h2>
+
+            <p>
+                El método de Euler es un método numérico simple para resolver ecuaciones diferenciales ordinarias. En
+                este caso,
+                lo utilizamos para aproximar la velocidad de un objeto en caída libre que experimenta una fuerza de
+                resistencia
+                proporcional al cuadrado de la velocidad.
+            </p>
+
+            <div class="equation">
+                $$ v_{i+1} = v_i + \Delta t \cdot f(v_i) $$
+            </div>
+            <p>
+                Donde $v_i$ es la velocidad en el tiempo $t_i$, $\Delta t$ es el paso de tiempo (en segundos), y
+                $f(v_i) = g - \frac{k}{m} v_i^2$ representa la aceleración neta en ese instante, considerando la
+                gravedad $g$ y
+                la resistencia del aire.
+            </p>
+
+            <button onclick="document.getElementById('tabla-euler').classList.toggle('hidden')"
+                class="btn btn-primary my-2">
+                Ver tabla de resultados con el método de Euler
+            </button>
+
+            <div id="tabla-euler" class="hidden">
+                <div class="table-wrapper mt-2">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>t<sub>i</sub> (s)</th>
+                                <th>v<sub>i</sub> (m/s)</th>
+                                <th>f(v<sub>i</sub>) (m/s²)</th>
+                                <th>v<sub>i+1</sub> (m/s)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0.0</td>
+                                <td>0.00</td>
+                                <td>9.81</td>
+                                <td>4.91</td>
+                            </tr>
+                            <tr>
+                                <td>0.5</td>
+                                <td>4.91</td>
+                                <td>9.57</td>
+                                <td>9.69</td>
+                            </tr>
+                            <tr>
+                                <td>1.0</td>
+                                <td>9.69</td>
+                                <td>8.87</td>
+                                <td>14.13</td>
+                            </tr>
+                            <tr>
+                                <td>1.5</td>
+                                <td>14.13</td>
+                                <td>7.81</td>
+                                <td>18.03</td>
+                            </tr>
+                            <tr>
+                                <td>2.0</td>
+                                <td>18.03</td>
+                                <td>6.56</td>
+                                <td>21.31</td>
+                            </tr>
+                            <tr>
+                                <td>2.5</td>
+                                <td>21.31</td>
+                                <td>5.27</td>
+                                <td>23.95</td>
+                            </tr>
+                            <tr>
+                                <td>3.0</td>
+                                <td>23.95</td>
+                                <td>4.08</td>
+                                <td>25.98</td>
+                            </tr>
+                            <tr>
+                                <td>3.5</td>
+                                <td>25.98</td>
+                                <td>3.06</td>
+                                <td>27.51</td>
+                            </tr>
+                            <tr>
+                                <td>4.0</td>
+                                <td>27.51</td>
+                                <td>2.24</td>
+                                <td>28.63</td>
+                            </tr>
+                            <tr>
+                                <td>4.5</td>
+                                <td>28.63</td>
+                                <td>1.61</td>
+                                <td>29.44</td>
+                            </tr>
+                            <tr>
+                                <td>5.0</td>
+                                <td>29.44</td>
+                                <td>1.14</td>
+                                <td>30.01</td>
+                            </tr>
+                            <tr>
+                                <td>5.5</td>
+                                <td>30.01</td>
+                                <td>0.80</td>
+                                <td>30.41</td>
+                            </tr>
+                            <tr>
+                                <td>6.0</td>
+                                <td>30.41</td>
+                                <td>0.56</td>
+                                <td>30.69</td>
+                            </tr>
+                            <tr>
+                                <td>6.5</td>
+                                <td>30.69</td>
+                                <td>0.39</td>
+                                <td>30.89</td>
+                            </tr>
+                            <tr>
+                                <td>7.0</td>
+                                <td>30.89</td>
+                                <td>0.27</td>
+                                <td>31.02</td>
+                            </tr>
+                            <tr>
+                                <td>7.5</td>
+                                <td>31.02</td>
+                                <td>0.19</td>
+                                <td>31.12</td>
+                            </tr>
+                            <tr>
+                                <td>8.0</td>
+                                <td>31.12</td>
+                                <td>0.13</td>
+                                <td>31.18</td>
+                            </tr>
+                            <tr>
+                                <td>8.5</td>
+                                <td>31.18</td>
+                                <td>0.09</td>
+                                <td>31.22</td>
+                            </tr>
+                            <tr>
+                                <td>9.0</td>
+                                <td>31.22</td>
+                                <td>0.06</td>
+                                <td>31.25</td>
+                            </tr>
+                            <tr>
+                                <td>9.5</td>
+                                <td>31.25</td>
+                                <td>0.04</td>
+                                <td>31.28</td>
+                            </tr>
+                            <tr>
+                                <td>10.0</td>
+                                <td>31.28</td>
+                                <td>0.03</td>
+                                <td>31.29</td>
+                            </tr>
+                            <tr>
+                                <td>10.5</td>
+                                <td>31.29</td>
+                                <td>0.02</td>
+                                <td>31.30</td>
+                            </tr>
+                            <tr>
+                                <td>11.0</td>
+                                <td>31.30</td>
+                                <td>0.01</td>
+                                <td>31.31</td>
+                            </tr>
+                            <tr>
+                                <td>11.5</td>
+                                <td>31.31</td>
+                                <td>0.01</td>
+                                <td>31.31</td>
+                            </tr>
+                            <tr>
+                                <td>12.0</td>
+                                <td>31.31</td>
+                                <td>0.01</td>
+                                <td>31.31</td>
+                            </tr>
+                            <tr>
+                                <td>12.5</td>
+                                <td>31.31</td>
+                                <td>0.00</td>
+                                <td>31.32</td>
+                            </tr>
+                            <tr>
+                                <td>13.0</td>
+                                <td>31.32</td>
+                                <td>0.00</td>
+                                <td>31.32</td>
+                            </tr>
+                            <tr>
+                                <td>13.5</td>
+                                <td>31.32</td>
+                                <td>0.00</td>
+                                <td>31.32</td>
+                            </tr>
+                            <tr>
+                                <td>14.0</td>
+                                <td>31.32</td>
+                                <td>0.00</td>
+                                <td>31.32</td>
+                            </tr>
+                            <tr>
+                                <td>14.5</td>
+                                <td>31.32</td>
+                                <td>0.00</td>
+                                <td>31.32</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button onclick="document.getElementById('tabla-euler').classList.add('hidden')"
+                    class="btn btn-secondary btn-ocultar">
+                    Ocultar tabla
+                </button>
+            </div>
+
+            <div class="conclusion"
+                style="background-color: #f0f8ff; border: 1px solid #add8e6; padding: 15px; margin-top: 20px; border-radius: 8px;">
+                <h3>Conclusión sobre el Método de Euler</h3>
+                <p>
+                    Aplicando el Método de Euler al modelo de caída libre con resistencia cuadrática, encontramos que la
+                    velocidad del objeto se aproxima a un valor límite conforme avanza el tiempo.
+                    Para $t = 15$ segundos, la velocidad es de aproximadamente <strong>31.32 m/s</strong>.
+                </p>
+                <p>
+                    Este resultado sugiere que el objeto alcanza su <em>velocidad terminal</em>, un valor constante
+                    donde la fuerza de gravedad se equilibra con la fuerza de resistencia del aire.
+                    Esto concuerda con la física del problema planteado, ya que la resistencia cuadrática actúa cada vez
+                    con mayor intensidad a medida que aumenta la velocidad, hasta frenar
+                    la aceleración completamente.
+                </p>
+                <p>
+                    A pesar de la simplicidad del método y del paso de tiempo $\Delta t = 0.5$ s, el método de Euler
+                    proporciona una aproximación bastante razonable al comportamiento del sistema,
+                    permitiendo visualizar cómo el objeto deja de acelerar y se estabiliza en una velocidad límite. Este
+                    tipo de simulaciones resulta útil cuando la solución exacta no es accesible
+                    o cuando se busca una comprensión cualitativa del fenómeno.
+                </p>
+            </div>
+        </div>
+
+
+
+        <!-- Método de Heun -->
+        <div class="metodo-heun my-4">
+            <h2>Método de Heun</h2>
+
+            <p>
+                El Método de Heun, también conocido como el método del trapecio explícito, es una mejora del Método de
+                Euler. Utiliza un promedio entre la pendiente inicial (predictor) y la pendiente corregida (corrector)
+                para estimar con mayor precisión la solución de una ecuación diferencial ordinaria.
+            </p>
+
+            <div class="equation">
+                $$ v_{i+1} = v_i + \frac{\Delta t}{2} \left[f(t_i, v_i) + f(t_{i+1}, \text{pred})\right] $$
+            </div>
+            <p>
+                Donde $v$ representa la velocidad, $v_i$ es la velocidad en el tiempo $t_i$, $\Delta t$ es el tamaño del
+                paso de tiempo, y $f(t,v) = -g$ (gravedad constante) en este caso, dado que se trata de una caída libre
+                vertical sin fricción.
+            </p>
+
+            <button onclick="document.getElementById('tabla-heun').classList.toggle('hidden')"
+                class="btn btn-primary my-2">
+                Ver tabla de resultados con el método de Heun
+            </button>
+
+            <div id="tabla-heun" class="hidden">
+                <div class="table-wrapper mt-2">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>t<sub>i</sub> (s)</th>
+                                <th>v<sub>i</sub> (m/s)</th>
+                                <th>Predictor (m/s)</th>
+                                <th>Corrector v<sub>i+1</sub> (m/s)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0.0</td>
+                                <td>0.00</td>
+                                <td>-4.91</td>
+                                <td>-4.84</td>
+                            </tr>
+                            <tr>
+                                <td>0.5</td>
+                                <td>-4.84</td>
+                                <td>-9.63</td>
+                                <td>-9.46</td>
+                            </tr>
+                            <tr>
+                                <td>1.0</td>
+                                <td>-9.46</td>
+                                <td>-13.92</td>
+                                <td>-13.66</td>
+                            </tr>
+                            <tr>
+                                <td>1.5</td>
+                                <td>-13.66</td>
+                                <td>-17.63</td>
+                                <td>-17.32</td>
+                            </tr>
+                            <tr>
+                                <td>2.0</td>
+                                <td>-17.32</td>
+                                <td>-20.72</td>
+                                <td>-20.40</td>
+                            </tr>
+                            <tr>
+                                <td>2.5</td>
+                                <td>-20.40</td>
+                                <td>-23.22</td>
+                                <td>-22.92</td>
+                            </tr>
+                            <tr>
+                                <td>3.0</td>
+                                <td>-22.92</td>
+                                <td>-25.20</td>
+                                <td>-24.92</td>
+                            </tr>
+                            <tr>
+                                <td>3.5</td>
+                                <td>-24.92</td>
+                                <td>-26.72</td>
+                                <td>-26.49</td>
+                            </tr>
+                            <tr>
+                                <td>4.0</td>
+                                <td>-26.49</td>
+                                <td>-27.89</td>
+                                <td>-27.70</td>
+                            </tr>
+                            <tr>
+                                <td>4.5</td>
+                                <td>-27.70</td>
+                                <td>-28.77</td>
+                                <td>-28.61</td>
+                            </tr>
+                            <tr>
+                                <td>5.0</td>
+                                <td>-28.61</td>
+                                <td>-29.43</td>
+                                <td>-29.31</td>
+                            </tr>
+                            <tr>
+                                <td>5.5</td>
+                                <td>-29.31</td>
+                                <td>-29.92</td>
+                                <td>-29.83</td>
+                            </tr>
+                            <tr>
+                                <td>6.0</td>
+                                <td>-29.83</td>
+                                <td>-30.28</td>
+                                <td>-30.22</td>
+                            </tr>
+                            <tr>
+                                <td>6.5</td>
+                                <td>-30.22</td>
+                                <td>-30.56</td>
+                                <td>-30.50</td>
+                            </tr>
+                            <tr>
+                                <td>7.0</td>
+                                <td>-30.50</td>
+                                <td>-30.76</td>
+                                <td>-30.72</td>
+                            </tr>
+                            <tr>
+                                <td>7.5</td>
+                                <td>-30.72</td>
+                                <td>-30.90</td>
+                                <td>-30.88</td>
+                            </tr>
+                            <tr>
+                                <td>8.0</td>
+                                <td>-30.88</td>
+                                <td>-31.01</td>
+                                <td>-30.99</td>
+                            </tr>
+                            <tr>
+                                <td>8.5</td>
+                                <td>-30.99</td>
+                                <td>-31.10</td>
+                                <td>-31.08</td>
+                            </tr>
+                            <tr>
+                                <td>9.0</td>
+                                <td>-31.08</td>
+                                <td>-31.15</td>
+                                <td>-31.14</td>
+                            </tr>
+                            <tr>
+                                <td>9.5</td>
+                                <td>-31.14</td>
+                                <td>-31.20</td>
+                                <td>-31.19</td>
+                            </tr>
+                            <tr>
+                                <td>10.0</td>
+                                <td>-31.19</td>
+                                <td>-31.23</td>
+                                <td>-31.22</td>
+                            </tr>
+                            <tr>
+                                <td>10.5</td>
+                                <td>-31.22</td>
+                                <td>-31.25</td>
+                                <td>-31.25</td>
+                            </tr>
+                            <tr>
+                                <td>11.0</td>
+                                <td>-31.25</td>
+                                <td>-31.27</td>
+                                <td>-31.27</td>
+                            </tr>
+                            <tr>
+                                <td>11.5</td>
+                                <td>-31.27</td>
+                                <td>-31.29</td>
+                                <td>-31.28</td>
+                            </tr>
+                            <tr>
+                                <td>12.0</td>
+                                <td>-31.28</td>
+                                <td>-31.29</td>
+                                <td>-31.29</td>
+                            </tr>
+                            <tr>
+                                <td>12.5</td>
+                                <td>-31.29</td>
+                                <td>-31.30</td>
+                                <td>-31.30</td>
+                            </tr>
+                            <tr>
+                                <td>13.0</td>
+                                <td>-31.30</td>
+                                <td>-31.31</td>
+                                <td>-31.31</td>
+                            </tr>
+                            <tr>
+                                <td>13.5</td>
+                                <td>-31.31</td>
+                                <td>-31.31</td>
+                                <td>-31.31</td>
+                            </tr>
+                            <tr>
+                                <td>14.0</td>
+                                <td>-31.31</td>
+                                <td>-31.31</td>
+                                <td>-31.31</td>
+                            </tr>
+                            <tr>
+                                <td>14.5</td>
+                                <td>-31.31</td>
+                                <td>-31.32</td>
+                                <td>-31.31</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button onclick="document.getElementById('tabla-heun').classList.add('hidden')"
+                    class="btn btn-secondary btn-ocultar">
+                    Ocultar tabla
+                </button>
+            </div>
+
+            <div class="conclusion"
+                style="background-color: #f0f8ff; border: 1px solid #add8e6; padding: 15px; margin-top: 20px; border-radius: 8px;">
+                <h3>Conclusión sobre el Método de Heun</h3>
+                <p>
+                    Al aplicar el Método de Heun para estimar la velocidad de un objeto en caída libre durante
+                    <strong>15 segundos</strong>,
+                    se obtiene una velocidad final aproximada de <strong>31.31 m/s</strong>. Este valor refleja el
+                    comportamiento esperado
+                    de un cuerpo que acelera uniformemente bajo la influencia de la gravedad en ausencia de resistencia
+                    del aire.
+                </p>
+                <p>
+                    Comparado con el Método de Euler, el Método de Heun proporciona una mayor precisión al corregir la
+                    pendiente inicial
+                    con una predicción más refinada, lo cual mejora significativamente la estimación de la velocidad en
+                    cada paso temporal.
+                    Esto se observa en la rápida convergencia del valor numérico hacia un estado casi constante,
+                    indicando que
+                    el modelo ha alcanzado una aproximación estable a la velocidad esperada a largo plazo.
+                </p>
+                <p>
+                    En resumen, Heun ofrece un balance ideal entre simplicidad computacional y precisión, y es
+                    especialmente útil
+                    en simulaciones donde se desea reducir el error acumulado sin recurrir a métodos más complejos.
+                </p>
+            </div>
+        </div>
+
+        <!-- Método de Runge-Kutta 4 -->
+        <div class="metodo-rk4 my-4">
+            <h2>Método de Runge-Kutta 4 (RK4)</h2>
+
+            <p>
+                El método de Runge-Kutta de cuarto orden (RK4) es un método numérico más preciso para resolver
+                ecuaciones diferenciales.
+                Utiliza varias evaluaciones de la pendiente en cada paso para obtener una mejor aproximación que los
+                métodos de Euler o Heun.
+            </p>
+
+            <div class="equation">
+                $$ v_{i+1} = v_i + \frac{\Delta t}{6} (k_1 + 2k_2 + 2k_3 + k_4) $$
+            </div>
+            <p>
+                Donde \(k_1, k_2, k_3, k_4\) son las pendientes estimadas en diferentes puntos dentro del intervalo
+                \(\Delta t\), que se combinan para mejorar la precisión de la estimación.
+            </p>
+
+            <button onclick="document.getElementById('tabla-rk4').classList.toggle('hidden')"
+                class="btn btn-primary my-2">
+                Ver tabla de resultados con el método RK4
+            </button>
+
+            <div id="tabla-rk4" class="hidden">
+                <div class="table-wrapper mt-2">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>t<sub>i</sub> (s)</th>
+                                <th>v<sub>i</sub> (m/s)</th>
+                                <th>k<sub>1</sub> (m/s²)</th>
+                                <th>k<sub>2</sub> (m/s²)</th>
+                                <th>k<sub>3</sub> (m/s²)</th>
+                                <th>k<sub>4</sub> (m/s²)</th>
+                                <th>v<sub>i+1</sub> (m/s)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0.0</td>
+                                <td>0.00</td>
+                                <td>-9.81</td>
+                                <td>-9.75</td>
+                                <td>-9.75</td>
+                                <td>-9.57</td>
+                                <td>-4.87</td>
+                            </tr>
+                            <tr>
+                                <td>0.5</td>
+                                <td>-4.87</td>
+                                <td>-9.57</td>
+                                <td>-9.28</td>
+                                <td>-9.29</td>
+                                <td>-8.91</td>
+                                <td>-9.50</td>
+                            </tr>
+                            <tr>
+                                <td>1.0</td>
+                                <td>-9.50</td>
+                                <td>-8.91</td>
+                                <td>-8.43</td>
+                                <td>-8.46</td>
+                                <td>-7.92</td>
+                                <td>-13.72</td>
+                            </tr>
+                            <tr>
+                                <td>1.5</td>
+                                <td>-13.72</td>
+                                <td>-7.93</td>
+                                <td>-7.34</td>
+                                <td>-7.39</td>
+                                <td>-6.78</td>
+                                <td>-17.40</td>
+                            </tr>
+                            <tr>
+                                <td>2.0</td>
+                                <td>-17.40</td>
+                                <td>-6.78</td>
+                                <td>-6.16</td>
+                                <td>-6.22</td>
+                                <td>-5.60</td>
+                                <td>-20.50</td>
+                            </tr>
+                            <tr>
+                                <td>2.5</td>
+                                <td>-20.50</td>
+                                <td>-5.61</td>
+                                <td>-5.01</td>
+                                <td>-5.08</td>
+                                <td>-4.50</td>
+                                <td>-23.02</td>
+                            </tr>
+                            <tr>
+                                <td>3.0</td>
+                                <td>-23.02</td>
+                                <td>-4.51</td>
+                                <td>-3.98</td>
+                                <td>-4.04</td>
+                                <td>-3.54</td>
+                                <td>-25.03</td>
+                            </tr>
+                            <tr>
+                                <td>3.5</td>
+                                <td>-25.03</td>
+                                <td>-3.55</td>
+                                <td>-3.09</td>
+                                <td>-3.15</td>
+                                <td>-2.73</td>
+                                <td>-26.59</td>
+                            </tr>
+                            <tr>
+                                <td>4.0</td>
+                                <td>-26.59</td>
+                                <td>-2.74</td>
+                                <td>-2.37</td>
+                                <td>-2.42</td>
+                                <td>-2.08</td>
+                                <td>-27.79</td>
+                            </tr>
+                            <tr>
+                                <td>4.5</td>
+                                <td>-27.79</td>
+                                <td>-2.09</td>
+                                <td>-1.79</td>
+                                <td>-1.83</td>
+                                <td>-1.57</td>
+                                <td>-28.70</td>
+                            </tr>
+                            <tr>
+                                <td>5.0</td>
+                                <td>-28.70</td>
+                                <td>-1.57</td>
+                                <td>-1.34</td>
+                                <td>-1.38</td>
+                                <td>-1.17</td>
+                                <td>-29.38</td>
+                            </tr>
+                            <tr>
+                                <td>5.5</td>
+                                <td>-29.38</td>
+                                <td>-1.18</td>
+                                <td>-1.00</td>
+                                <td>-1.03</td>
+                                <td>-0.87</td>
+                                <td>-29.89</td>
+                            </tr>
+                            <tr>
+                                <td>6.0</td>
+                                <td>-29.89</td>
+                                <td>-0.87</td>
+                                <td>-0.74</td>
+                                <td>-0.76</td>
+                                <td>-0.64</td>
+                                <td>-30.27</td>
+                            </tr>
+                            <tr>
+                                <td>6.5</td>
+                                <td>-30.27</td>
+                                <td>-0.65</td>
+                                <td>-0.55</td>
+                                <td>-0.56</td>
+                                <td>-0.48</td>
+                                <td>-30.55</td>
+                            </tr>
+                            <tr>
+                                <td>7.0</td>
+                                <td>-30.55</td>
+                                <td>-0.48</td>
+                                <td>-0.40</td>
+                                <td>-0.42</td>
+                                <td>-0.35</td>
+                                <td>-30.76</td>
+                            </tr>
+                            <tr>
+                                <td>7.5</td>
+                                <td>-30.76</td>
+                                <td>-0.35</td>
+                                <td>-0.30</td>
+                                <td>-0.31</td>
+                                <td>-0.26</td>
+                                <td>-30.91</td>
+                            </tr>
+                            <tr>
+                                <td>8.0</td>
+                                <td>-30.91</td>
+                                <td>-0.26</td>
+                                <td>-0.22</td>
+                                <td>-0.22</td>
+                                <td>-0.19</td>
+                                <td>-31.02</td>
+                            </tr>
+                            <tr>
+                                <td>8.5</td>
+                                <td>-31.02</td>
+                                <td>-0.19</td>
+                                <td>-0.16</td>
+                                <td>-0.16</td>
+                                <td>-0.14</td>
+                                <td>-31.10</td>
+                            </tr>
+                            <tr>
+                                <td>9.0</td>
+                                <td>-31.10</td>
+                                <td>-0.14</td>
+                                <td>-0.12</td>
+                                <td>-0.12</td>
+                                <td>-0.10</td>
+                                <td>-31.16</td>
+                            </tr>
+                            <tr>
+                                <td>9.5</td>
+                                <td>-31.16</td>
+                                <td>-0.10</td>
+                                <td>-0.09</td>
+                                <td>-0.09</td>
+                                <td>-0.07</td>
+                                <td>-31.20</td>
+                            </tr>
+                            <tr>
+                                <td>10.0</td>
+                                <td>-31.20</td>
+                                <td>-0.07</td>
+                                <td>-0.06</td>
+                                <td>-0.06</td>
+                                <td>-0.05</td>
+                                <td>-31.23</td>
+                            </tr>
+                            <tr>
+                                <td>10.5</td>
+                                <td>-31.23</td>
+                                <td>-0.05</td>
+                                <td>-0.05</td>
+                                <td>-0.05</td>
+                                <td>-0.04</td>
+                                <td>-31.26</td>
+                            </tr>
+                            <tr>
+                                <td>11.0</td>
+                                <td>-31.26</td>
+                                <td>-0.04</td>
+                                <td>-0.03</td>
+                                <td>-0.03</td>
+                                <td>-0.03</td>
+                                <td>-31.27</td>
+                            </tr>
+                            <tr>
+                                <td>11.5</td>
+                                <td>-31.27</td>
+                                <td>-0.03</td>
+                                <td>-0.02</td>
+                                <td>-0.03</td>
+                                <td>-0.02</td>
+                                <td>-31.29</td>
+                            </tr>
+                            <tr>
+                                <td>12.0</td>
+                                <td>-31.29</td>
+                                <td>-0.02</td>
+                                <td>-0.02</td>
+                                <td>-0.02</td>
+                                <td>-0.02</td>
+                                <td>-31.30</td>
+                            </tr>
+                            <tr>
+                                <td>12.5</td>
+                                <td>-31.30</td>
+                                <td>-0.02</td>
+                                <td>-0.01</td>
+                                <td>-0.01</td>
+                                <td>-0.01</td>
+                                <td>-31.30</td>
+                            </tr>
+                            <tr>
+                                <td>13.0</td>
+                                <td>-31.30</td>
+                                <td>-0.01</td>
+                                <td>-0.01</td>
+                                <td>-0.01</td>
+                                <td>-0.01</td>
+                                <td>-31.31</td>
+                            </tr>
+                            <tr>
+                                <td>13.5</td>
+                                <td>-31.31</td>
+                                <td>-0.01</td>
+                                <td>-0.01</td>
+                                <td>-0.01</td>
+                                <td>-0.01</td>
+                                <td>-31.31</td>
+                            </tr>
+                            <tr>
+                                <td>14.0</td>
+                                <td>-31.31</td>
+                                <td>-0.01</td>
+                                <td>-0.01</td>
+                                <td>-0.01</td>
+                                <td>-0.00</td>
+                                <td>-31.31</td>
+                            </tr>
+                            <tr>
+                                <td>14.5</td>
+                                <td>-31.31</td>
+                                <td>-0.00</td>
+                                <td>-0.00</td>
+                                <td>-0.00</td>
+                                <td>-0.00</td>
+                                <td>-31.32</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="conclusion"
+                style="background-color: #f0f8ff; border: 1px solid #add8e6; padding: 15px; margin-top: 20px; border-radius: 8px;">
+
+                <h3>Conclusión sobre el Método de Runge-Kutta 4</h3>
+                <p>
+                    Al aplicar el Método de Runge-Kutta 4 para estimar la velocidad de un objeto en caída libre durante
+                    <strong>15 segundos</strong>,
+                    se obtiene una velocidad final aproximada de <strong>31.32 m/s</strong>. Este valor confirma la
+                    precisión de RK4 para resolver
+                    ecuaciones diferenciales, mejorando la estimación en comparación con métodos más simples como Euler
+                    y Heun.
+                </p>
+                <p>
+                    RK4 utiliza múltiples evaluaciones de la pendiente en cada intervalo temporal, lo que reduce
+                    significativamente el error acumulado
+                    y permite una convergencia rápida hacia la velocidad terminal esperada. Esta estabilidad numérica
+                    hace de RK4 una excelente opción
+                    para simulaciones físicas donde se requiere alta precisión sin aumentar excesivamente el costo
+                    computacional.
+                </p>
+                <p>
+                    En resumen, el método RK4 es el más robusto de los tres métodos discutidos y ofrece la mejor
+                    aproximación para la velocidad de caída libre en el intervalo considerado.
+                </p>
+            </div>
+        </div>
+
+        <!-- Resumen comparativo -->
+        <div class="table-wrapper" style="margin-top: 20px;">
+            <h3>Resumen Comparativo para la Velocidad en Caída Libre</h3>
+            <table class="table table-bordered table-striped" style="width: 100%; text-align: center;">
+                <thead class="table-dark" style="background-color: #343a40; color: white;">
+                    <tr>
+                        <th>Método</th>
+                        <th>Velocidad final en <strong>t = 15 s</strong> (m/s)</th>
+                        <th>Diferencia con valor esperado (~31.32 m/s)</th>
+                        <th>Descripción</th>
+                        <th>Precisión relativa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Euler</td>
+                        <td>31.24</td>
+                        <td>0.08</td>
+                        <td>Método sencillo y rápido, pero con errores acumulativos mayores.</td>
+                        <td>Media</td>
+                    </tr>
+                    <tr>
+                        <td>Heun (Euler modificado)</td>
+                        <td>31.31</td>
+                        <td>0.01</td>
+                        <td>Mejora Euler usando corrección con promedio de pendientes.</td>
+                        <td>Alta</td>
+                    </tr>
+                    <tr>
+                        <td>Runge-Kutta de orden 4 (RK4)</td>
+                        <td>31.32</td>
+                        <td>0.00</td>
+                        <td>Método de cuarta orden, muy preciso y confiable.</td>
+                        <td>Muy alta</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <h2>Gráfica comparativa de Metodos</h2>
+        <!-- Tabla Comparativa Final -->
+        <div class="tabla-comparativa my-4">
+            <button onclick="document.getElementById('tabla-comparativa').classList.toggle('hidden')"
+                class="btn btn-primary my-2">
+                Ver tabla con resultados de velocidades por tiempo
+            </button>
+
+            <div id="tabla-comparativa" class="hidden">
+                <div class="table-wrapper mt-2">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Tiempo (s)</th>
+                                <th>Euler (m/s)</th>
+                                <th>Heun (m/s)</th>
+                                <th>RK4 (m/s)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0.0</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>0.5</td>
+                                <td>-4.91</td>
+                                <td>-4.84</td>
+                                <td>-4.87</td>
+                            </tr>
+                            <tr>
+                                <td>1.0</td>
+                                <td>-9.69</td>
+                                <td>-9.46</td>
+                                <td>-9.50</td>
+                            </tr>
+                            <tr>
+                                <td>1.5</td>
+                                <td>-14.13</td>
+                                <td>-13.66</td>
+                                <td>-13.72</td>
+                            </tr>
+                            <tr>
+                                <td>2.0</td>
+                                <td>-18.03</td>
+                                <td>-17.32</td>
+                                <td>-17.40</td>
+                            </tr>
+                            <tr>
+                                <td>2.5</td>
+                                <td>-21.31</td>
+                                <td>-20.40</td>
+                                <td>-20.50</td>
+                            </tr>
+                            <tr>
+                                <td>3.0</td>
+                                <td>-23.95</td>
+                                <td>-22.92</td>
+                                <td>-23.02</td>
+                            </tr>
+                            <tr>
+                                <td>3.5</td>
+                                <td>-25.98</td>
+                                <td>-24.92</td>
+                                <td>-25.03</td>
+                            </tr>
+                            <tr>
+                                <td>4.0</td>
+                                <td>-27.51</td>
+                                <td>-26.49</td>
+                                <td>-26.59</td>
+                            </tr>
+                            <tr>
+                                <td>4.5</td>
+                                <td>-28.63</td>
+                                <td>-27.70</td>
+                                <td>-27.79</td>
+                            </tr>
+                            <tr>
+                                <td>5.0</td>
+                                <td>-29.44</td>
+                                <td>-28.61</td>
+                                <td>-28.70</td>
+                            </tr>
+                            <tr>
+                                <td>5.5</td>
+                                <td>-30.01</td>
+                                <td>-29.31</td>
+                                <td>-29.38</td>
+                            </tr>
+                            <tr>
+                                <td>6.0</td>
+                                <td>-30.41</td>
+                                <td>-29.83</td>
+                                <td>-29.89</td>
+                            </tr>
+                            <tr>
+                                <td>6.5</td>
+                                <td>-30.69</td>
+                                <td>-30.22</td>
+                                <td>-30.27</td>
+                            </tr>
+                            <tr>
+                                <td>7.0</td>
+                                <td>-30.89</td>
+                                <td>-30.50</td>
+                                <td>-30.55</td>
+                            </tr>
+                            <tr>
+                                <td>7.5</td>
+                                <td>-31.02</td>
+                                <td>-30.72</td>
+                                <td>-30.76</td>
+                            </tr>
+                            <tr>
+                                <td>8.0</td>
+                                <td>-31.12</td>
+                                <td>-30.88</td>
+                                <td>-30.91</td>
+                            </tr>
+                            <tr>
+                                <td>8.5</td>
+                                <td>-31.18</td>
+                                <td>-30.99</td>
+                                <td>-31.02</td>
+                            </tr>
+                            <tr>
+                                <td>9.0</td>
+                                <td>-31.22</td>
+                                <td>-31.08</td>
+                                <td>-31.10</td>
+                            </tr>
+                            <tr>
+                                <td>9.5</td>
+                                <td>-31.25</td>
+                                <td>-31.14</td>
+                                <td>-31.16</td>
+                            </tr>
+                            <tr>
+                                <td>10.0</td>
+                                <td>-31.28</td>
+                                <td>-31.19</td>
+                                <td>-31.20</td>
+                            </tr>
+                            <tr>
+                                <td>10.5</td>
+                                <td>-31.29</td>
+                                <td>-31.22</td>
+                                <td>-31.23</td>
+                            </tr>
+                            <tr>
+                                <td>11.0</td>
+                                <td>-31.30</td>
+                                <td>-31.25</td>
+                                <td>-31.26</td>
+                            </tr>
+                            <tr>
+                                <td>11.5</td>
+                                <td>-31.31</td>
+                                <td>-31.27</td>
+                                <td>-31.27</td>
+                            </tr>
+                            <tr>
+                                <td>12.0</td>
+                                <td>-31.31</td>
+                                <td>-31.28</td>
+                                <td>-31.29</td>
+                            </tr>
+                            <tr>
+                                <td>12.5</td>
+                                <td>-31.31</td>
+                                <td>-31.29</td>
+                                <td>-31.30</td>
+                            </tr>
+                            <tr>
+                                <td>13.0</td>
+                                <td>-31.32</td>
+                                <td>-31.30</td>
+                                <td>-31.30</td>
+                            </tr>
+                            <tr>
+                                <td>13.5</td>
+                                <td>-31.32</td>
+                                <td>-31.31</td>
+                                <td>-31.31</td>
+                            </tr>
+                            <tr>
+                                <td>14.0</td>
+                                <td>-31.32</td>
+                                <td>-31.31</td>
+                                <td>-31.31</td>
+                            </tr>
+                            <tr>
+                                <td>14.5</td>
+                                <td>-31.32</td>
+                                <td>-31.31</td>
+                                <td>-31.31</td>
+                            </tr>
+                            <tr>
+                                <td>15.0</td>
+                                <td>-31.32</td>
+                                <td>-31.31</td>
+                                <td>-31.32</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button onclick="document.getElementById('tabla-comparativa').classList.add('hidden')"
+                    class="btn btn-secondary btn-ocultar">
+                    Ocultar tabla
+                </button>
+            </div>
+        </div>
+
+        <div id="grafica" style="width:100%;max-width:900px;"></div>
+        
+    </div>
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <p>Analisis Numerico</p>
+            <p>Ecuaciones Diferenciales</p>
+            <p>&copy; 2025 Ruth Quispe Hinojosa. Todos los derechos reservados.</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const t = [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0,
+            5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0,
+            10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5, 15.0];
+
+        const euler = [0.00, -4.91, -9.69, -14.13, -18.03, -21.31, -23.95, -25.98, -27.51, -28.63, -29.44,
+            -30.01, -30.41, -30.69, -30.89, -31.02, -31.12, -31.18, -31.22, -31.25, -31.28,
+            -31.29, -31.30, -31.31, -31.31, -31.31, -31.32, -31.32, -31.32, -31.32, -31.32];
+
+        const heun = [0.00, -4.84, -9.46, -13.66, -17.32, -20.40, -22.92, -24.92, -26.49, -27.70, -28.61,
+            -29.31, -29.83, -30.22, -30.50, -30.72, -30.88, -30.99, -31.08, -31.14, -31.19,
+            -31.22, -31.25, -31.27, -31.28, -31.29, -31.30, -31.31, -31.31, -31.31, -31.31];
+
+        const rk4 = [0.00, -4.87, -9.50, -13.72, -17.40, -20.50, -23.02, -25.03, -26.59, -27.79, -28.70,
+            -29.38, -29.89, -30.27, -30.55, -30.76, -30.91, -31.02, -31.10, -31.16, -31.20,
+            -31.23, -31.26, -31.27, -31.29, -31.30, -31.30, -31.31, -31.31, -31.31, -31.32];
+
+        const data = [
+            { x: t, y: euler, type: 'scatter', mode: 'lines+markers', name: 'Euler' },
+            { x: t, y: heun, type: 'scatter', mode: 'lines+markers', name: 'Heun' },
+            { x: t, y: rk4, type: 'scatter', mode: 'lines+markers', name: 'RK4' }
+        ];
+
+        Plotly.newPlot('grafica', data, {
+            title: 'Comparativa de Velocidades con Métodos Numéricos',
+            xaxis: { title: 'Tiempo (s)' },
+            yaxis: { title: 'Velocidad (m/s)' }
+        });
+    </script>
+
+
+</body>
+
+</html>
